@@ -6,548 +6,593 @@
 <title>Quant Finance Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0e0f0e;
-    --surface: #161714;
-    --surface2: #1e1f1c;
-    --border: rgba(255,255,255,0.07);
-    --border2: rgba(255,255,255,0.13);
-    --text: #f0ede6;
-    --muted: #888880;
-    --faint: #444440;
-    --accent-gold: #c9a84c;
-    --accent-gold-dim: rgba(201,168,76,0.12);
-    --accent-teal: #4db89a;
-    --accent-teal-dim: rgba(77,184,154,0.1);
-    --accent-coral: #d96b4a;
-    --accent-coral-dim: rgba(217,107,74,0.1);
-    --accent-blue: #5e9fd8;
-    --accent-blue-dim: rgba(94,159,216,0.1);
-    --accent-rose: #c06b8a;
-    --accent-rose-dim: rgba(192,107,138,0.1);
-    --accent-slate: #7c8fa0;
-    --accent-slate-dim: rgba(124,143,160,0.1);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-
-  /* HEADER */
-  header {
-    border-bottom: 1px solid var(--border);
-    padding: 2.5rem 2rem 2rem;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    position: sticky;
-    top: 0;
-    background: rgba(14,15,14,0.92);
-    backdrop-filter: blur(12px);
-    z-index: 50;
-  }
-
-  .header-left { display: flex; flex-direction: column; gap: 4px; }
-
-  .logo-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    color: var(--accent-gold);
-    text-transform: uppercase;
-  }
-
-  h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    font-weight: 400;
-    color: var(--text);
-    line-height: 1.1;
-  }
-
-  h1 em {
-    font-style: italic;
-    color: var(--accent-gold);
-  }
-
-  .header-stats {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    flex-shrink: 0;
-  }
-
-  .stat {
-    text-align: right;
-  }
-
-  .stat-n {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.5rem;
-    color: var(--text);
-  }
-
-  .stat-l {
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-
-  .stat-divider {
-    width: 1px;
-    height: 32px;
-    background: var(--border2);
-  }
-
-  /* TOOLBAR */
-  .toolbar {
-    padding: 1.25rem 2rem;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .search-wrap {
-    position: relative;
-    flex: 1;
-    min-width: 200px;
-  }
-
-  .search-wrap svg {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    pointer-events: none;
-  }
-
-  #search {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    padding: 9px 12px 9px 36px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  #search:focus { border-color: var(--accent-gold); }
-  #search::placeholder { color: var(--faint); }
-
-  .filters {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .pill {
-    padding: 6px 14px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    font-size: 12px;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    background: transparent;
-    color: var(--muted);
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-
-  .pill:hover {
-    border-color: var(--border2);
-    color: var(--text);
-  }
-
-  .pill.active {
-    background: var(--accent-gold);
-    border-color: var(--accent-gold);
-    color: #0e0f0e;
-  }
-
-  /* MAIN LAYOUT */
-  .main {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    min-height: calc(100vh - 140px);
-  }
-
-  /* SIDEBAR */
-  aside {
-    border-right: 1px solid var(--border);
-    padding: 2rem 1.5rem;
-    position: sticky;
-    top: 140px;
-    height: fit-content;
-  }
-
-  .aside-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.18em;
-    color: var(--faint);
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-  }
-
-  .type-list { display: flex; flex-direction: column; gap: 2px; }
-
-  .type-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    text-align: left;
-    width: 100%;
-    transition: all 0.15s;
-  }
-
-  .type-btn:hover { background: var(--surface2); color: var(--text); }
-  .type-btn.active { background: var(--surface2); color: var(--text); }
-
-  .type-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .type-count {
-    margin-left: auto;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--faint);
-  }
-
-  .aside-sep {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 1.25rem 0;
-  }
-
-  .add-resource-btn {
-    width: 100%;
-    padding: 9px 12px;
-    border: 1px dashed var(--border2);
-    border-radius: 8px;
-    background: transparent;
-    color: var(--muted);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    justify-content: center;
-  }
-
-  .add-resource-btn:hover {
-    border-color: var(--accent-gold);
-    color: var(--accent-gold);
-    background: var(--accent-gold-dim);
-  }
-
-  /* CONTENT */
-  .content {
-    padding: 2rem;
-  }
-
-  .section {
-    margin-bottom: 3rem;
-    animation: fadeUp 0.3s ease both;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .section-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.15rem;
-    font-weight: 400;
-    color: var(--text);
-  }
-
-  .section-badge {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--faint);
-  }
-
-  .cards { display: flex; flex-direction: column; gap: 8px; }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    transition: border-color 0.15s, background 0.15s;
-    cursor: default;
-  }
-
-  .card:hover {
-    border-color: var(--border2);
-    background: var(--surface2);
-  }
-
-  .card-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  .card-body { flex: 1; min-width: 0; }
-
-  .card-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 3px;
-  }
-
-  .card-title {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-    line-height: 1.3;
-  }
-
-  .card-author {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 4px;
-    font-family: 'DM Mono', monospace;
-  }
-
-  .card-notes {
-    font-size: 12.5px;
-    color: var(--muted);
-    line-height: 1.5;
-    margin-bottom: 8px;
-  }
-
-  .card-footer {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    padding: 3px 9px;
-    border-radius: 999px;
-    border: 1px solid;
-    white-space: nowrap;
-  }
-
-  .card-link {
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    color: var(--accent-gold);
-    text-decoration: none;
-    border: 1px solid rgba(201,168,76,0.25);
-    padding: 3px 9px;
-    border-radius: 999px;
-    transition: background 0.15s;
-  }
-
-  .card-link:hover { background: var(--accent-gold-dim); }
-
-  .delete-btn {
-    background: none;
-    border: none;
-    color: var(--faint);
-    cursor: pointer;
-    font-size: 16px;
-    line-height: 1;
-    padding: 2px 4px;
-    border-radius: 4px;
-    transition: all 0.15s;
-    flex-shrink: 0;
-  }
-  .delete-btn:hover { color: var(--accent-coral); background: var(--accent-coral-dim); }
-
-  /* EMPTY */
-  .empty {
-    text-align: center;
-    padding: 3rem 1rem;
-    color: var(--faint);
-    font-size: 13px;
-  }
-
-  .empty-icon { font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.4; }
-
-  /* MODAL */
-  .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    z-index: 200;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-  }
-
-  .overlay.open { display: flex; }
-
-  .modal {
-    background: var(--surface);
-    border: 1px solid var(--border2);
-    border-radius: 14px;
-    padding: 2rem;
-    width: 100%;
-    max-width: 460px;
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-
-  .modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-  }
-
-  .modal-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.2rem;
-    font-weight: 400;
-  }
-
-  .modal-close {
-    background: none;
-    border: none;
-    color: var(--muted);
-    font-size: 20px;
-    cursor: pointer;
-    line-height: 1;
-  }
-
-  .form-group { margin-bottom: 1rem; }
-
-  .form-group label {
-    display: block;
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    padding: 9px 12px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .form-group textarea { min-height: 70px; resize: vertical; }
-
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus { border-color: var(--accent-gold); }
-
-  .form-group select option { background: var(--surface); }
-
-  .modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 1.5rem;
-  }
-
-  .btn-cancel {
-    padding: 8px 18px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: transparent;
-    color: var(--muted);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .btn-cancel:hover { border-color: var(--border2); color: var(--text); }
-
-  .btn-save {
-    padding: 8px 20px;
-    border: none;
-    border-radius: 8px;
-    background: var(--accent-gold);
-    color: #0e0f0e;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-  .btn-save:hover { opacity: 0.88; }
-
-  /* RESPONSIVE */
-  @media (max-width: 640px) {
-    .main { grid-template-columns: 1fr; }
-    aside { position: static; border-right: none; border-bottom: 1px solid var(--border); padding: 1rem; }
-    .type-list { flex-direction: row; flex-wrap: wrap; gap: 4px; }
-    .type-btn { width: auto; padding: 6px 10px; font-size: 12px; }
-    header { padding: 1.5rem 1rem 1rem; }
-    .toolbar { padding: 1rem; }
-    .content { padding: 1rem; }
-  }
+:root {
+  --bg: #0e0f0e;
+  --surface: #161714;
+  --surface2: #1e1f1c;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text: #f0ede6;
+  --muted: #888880;
+  --faint: #444440;
+  --accent-gold: #c9a84c;
+  --accent-gold-dim: rgba(201,168,76,0.12);
+  --accent-teal: #4db89a;
+  --accent-teal-dim: rgba(77,184,154,0.1);
+  --accent-coral: #d96b4a;
+  --accent-coral-dim: rgba(217,107,74,0.1);
+  --accent-blue: #5e9fd8;
+  --accent-blue-dim: rgba(94,159,216,0.1);
+  --accent-rose: #c06b8a;
+  --accent-rose-dim: rgba(192,107,138,0.1);
+  --accent-purple: #a07ed8;
+  --accent-slate: #7c8fa0;
+  --accent-slate-dim: rgba(124,143,160,0.1);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* HEADER */
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 2.5rem 2rem 2rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  background: rgba(14,15,14,0.92);
+  backdrop-filter: blur(12px);
+  z-index: 50;
+}
+.header-left { display: flex; flex-direction: column; gap: 4px; }
+.logo-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--accent-gold);
+  text-transform: uppercase;
+}
+h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.1;
+}
+h1 em { font-style: italic; color: var(--accent-gold); }
+.header-stats {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+.stat { text-align: right; }
+.stat-n {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.5rem;
+  color: var(--text);
+}
+.stat-l {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.stat-divider { width: 1px; height: 32px; background: var(--border2); }
+
+/* TOOLBAR */
+.toolbar {
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+.search-wrap svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+#search {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  padding: 9px 12px 9px 36px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+#search:focus { border-color: var(--accent-gold); }
+#search::placeholder { color: var(--faint); }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.pill:hover { border-color: var(--border2); color: var(--text); }
+.pill.active { background: var(--accent-gold); border-color: var(--accent-gold); color: #0e0f0e; }
+
+/* MAIN LAYOUT */
+.main {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: calc(100vh - 140px);
+}
+
+/* SIDEBAR */
+aside {
+  border-right: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+  position: sticky;
+  top: 140px;
+  height: fit-content;
+}
+.aside-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--faint);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.type-list { display: flex; flex-direction: column; gap: 2px; }
+.type-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  text-align: left;
+  width: 100%;
+  transition: all 0.15s;
+}
+.type-btn:hover { background: var(--surface2); color: var(--text); }
+.type-btn.active { background: var(--surface2); color: var(--text); }
+.type-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.type-count {
+  margin-left: auto;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--faint);
+}
+.aside-sep { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+.add-resource-btn {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px dashed var(--border2);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+}
+.add-resource-btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  background: var(--accent-gold-dim);
+}
+
+/* CONTENT */
+.content { padding: 2rem; }
+.section {
+  margin-bottom: 3rem;
+  animation: fadeUp 0.3s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--text);
+}
+.section-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--faint);
+}
+.cards { display: flex; flex-direction: column; gap: 8px; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  transition: border-color 0.15s, background 0.15s;
+  cursor: default;
+}
+.card:hover { border-color: var(--border2); background: var(--surface2); }
+.card-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.card-body { flex: 1; min-width: 0; }
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 3px;
+}
+.card-title { font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.3; }
+.card-author {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 4px;
+  font-family: 'DM Mono', monospace;
+}
+.card-notes { font-size: 12.5px; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.tag {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+/* Link buttons */
+.card-link {
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  color: var(--accent-gold);
+  text-decoration: none;
+  border: 1px solid rgba(201,168,76,0.25);
+  padding: 3px 9px;
+  border-radius: 999px;
+  transition: background 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.card-link:hover { background: var(--accent-gold-dim); }
+.card-link.pdf {
+  color: var(--accent-coral);
+  border-color: rgba(217,107,74,0.25);
+}
+.card-link.pdf:hover { background: var(--accent-coral-dim); }
+.card-link.embedded-pdf {
+  color: var(--accent-teal);
+  border-color: rgba(77,184,154,0.25);
+}
+.card-link.embedded-pdf:hover { background: var(--accent-teal-dim); }
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: var(--faint);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.delete-btn:hover { color: var(--accent-coral); background: var(--accent-coral-dim); }
+
+/* EMPTY */
+.empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--faint);
+  font-size: 13px;
+}
+.empty-icon { font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.4; }
+
+/* PDF VIEWER MODAL */
+.pdf-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 300;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.pdf-overlay.open { display: flex; }
+.pdf-modal {
+  width: 100%;
+  max-width: 900px;
+  height: 90vh;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.pdf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.pdf-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pdf-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+.pdf-frame {
+  flex: 1;
+  width: 100%;
+  border: none;
+  background: #fff;
+}
+
+/* MODAL */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+.overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.modal-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+}
+.form-group { margin-bottom: 1rem; }
+.form-group label {
+  display: block;
+  font-size: 11px;
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  padding: 9px 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-group textarea { min-height: 70px; resize: vertical; }
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--accent-gold); }
+.form-group select option { background: var(--surface); }
+
+/* PDF upload area */
+.pdf-upload-area {
+  border: 1px dashed var(--border2);
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  position: relative;
+}
+.pdf-upload-area:hover, .pdf-upload-area.dragover {
+  border-color: var(--accent-coral);
+  background: var(--accent-coral-dim);
+}
+.pdf-upload-area input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+}
+.pdf-upload-label {
+  font-size: 12px;
+  color: var(--muted);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.pdf-upload-label span { font-size: 18px; }
+.pdf-selected {
+  font-size: 12px;
+  color: var(--accent-coral);
+  font-family: 'DM Mono', monospace;
+  margin-top: 6px;
+  display: none;
+  align-items: center;
+  gap: 6px;
+}
+.pdf-selected.show { display: flex; }
+.pdf-clear-btn {
+  background: none;
+  border: none;
+  color: var(--faint);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 2px;
+}
+.pdf-clear-btn:hover { color: var(--accent-coral); }
+
+/* divider */
+.or-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+}
+.or-divider span {
+  font-size: 10px;
+  font-family: 'DM Mono', monospace;
+  color: var(--faint);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.or-divider::before, .or-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 1.5rem;
+}
+.btn-cancel {
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-cancel:hover { border-color: var(--border2); color: var(--text); }
+.btn-save {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent-gold);
+  color: #0e0f0e;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-save:hover { opacity: 0.88; }
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .main { grid-template-columns: 1fr; }
+  aside { position: static; border-right: none; border-bottom: 1px solid var(--border); padding: 1rem; }
+  .type-list { flex-direction: row; flex-wrap: wrap; gap: 4px; }
+  .type-btn { width: auto; padding: 6px 10px; font-size: 12px; }
+  header { padding: 1.5rem 1rem 1rem; }
+  .toolbar { padding: 1rem; }
+  .content { padding: 1rem; }
+}
 </style>
 </head>
 <body>
@@ -595,13 +640,14 @@
   <div class="content" id="content"></div>
 </div>
 
-<!-- MODAL -->
+<!-- ADD RESOURCE MODAL -->
 <div class="overlay" id="overlay">
   <div class="modal">
     <div class="modal-header">
       <span class="modal-title">Aggiungi risorsa</span>
       <button class="modal-close" onclick="closeModal()">&#x2715;</button>
     </div>
+
     <div class="form-group">
       <label>Tipo</label>
       <select id="f-type">
@@ -611,26 +657,56 @@
         <option value="link">Tool / Link</option>
       </select>
     </div>
+
     <div class="form-group">
       <label>Titolo / Domanda</label>
       <input type="text" id="f-title" placeholder="Es. Options, Futures and Other Derivatives">
     </div>
+
     <div class="form-group">
       <label>Autore / Fonte</label>
       <input type="text" id="f-author" placeholder="Es. John C. Hull">
     </div>
+
     <div class="form-group">
       <label>Note</label>
       <textarea id="f-notes" placeholder="Descrizione, capitoli utili, perché leggerlo..."></textarea>
     </div>
+
     <div class="form-group">
       <label>Argomento</label>
       <select id="f-topic-sel"></select>
     </div>
+
+    <!-- LINK WEB -->
     <div class="form-group">
-      <label>Link (opzionale)</label>
+      <label>Link web (opzionale)</label>
       <input type="url" id="f-link" placeholder="https://...">
     </div>
+
+    <!-- PDF SECTION -->
+    <div class="form-group">
+      <label>PDF</label>
+
+      <!-- Upload file -->
+      <div class="pdf-upload-area" id="pdf-drop-area">
+        <input type="file" id="f-pdf-file" accept=".pdf,application/pdf" onchange="handlePDFFile(this)">
+        <div class="pdf-upload-label">
+          <span>📎</span> Carica PDF dal tuo computer
+        </div>
+      </div>
+      <div class="pdf-selected" id="pdf-selected-name">
+        <span>📄</span>
+        <span id="pdf-name-label">file.pdf</span>
+        <button class="pdf-clear-btn" onclick="clearPDF()">✕</button>
+      </div>
+
+      <div class="or-divider"><span>oppure</span></div>
+
+      <!-- Link PDF esterno -->
+      <input type="url" id="f-pdf-link" placeholder="URL diretto a un PDF (es. arXiv, Drive...)">
+    </div>
+
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal()">Annulla</button>
       <button class="btn-save" onclick="saveResource()">Salva</button>
@@ -638,60 +714,176 @@
   </div>
 </div>
 
+<!-- PDF VIEWER -->
+<div class="pdf-overlay" id="pdf-overlay">
+  <div class="pdf-modal">
+    <div class="pdf-header">
+      <span class="pdf-title" id="pdf-viewer-title">Documento</span>
+      <button class="pdf-close" onclick="closePDFViewer()">&#x2715;</button>
+    </div>
+    <iframe class="pdf-frame" id="pdf-frame" src="" title="PDF viewer"></iframe>
+  </div>
+</div>
+
 <script>
 const TOPICS = [
   { id: 'all', label: 'Tutti' },
-  { id: 'bonds', label: 'Fixed Income', color: '#5e9fd8', dim: 'rgba(94,159,216,0.12)' },
-  { id: 'equity', label: 'Equity Research', color: '#4db89a', dim: 'rgba(77,184,154,0.1)' },
-  { id: 'derivatives', label: 'Derivatives', color: '#d96b4a', dim: 'rgba(217,107,74,0.1)' },
-  { id: 'credit', label: 'Credit Risk', color: '#c9a84c', dim: 'rgba(201,168,76,0.1)' },
-  { id: 'quant', label: 'Quant Methods', color: '#a07ed8', dim: 'rgba(160,126,216,0.1)' },
-  { id: 'interview', label: 'Interview Prep', color: '#c06b8a', dim: 'rgba(192,107,138,0.1)' },
-  { id: 'macro', label: 'Macro / Rates', color: '#7c8fa0', dim: 'rgba(124,143,160,0.1)' },
+  { id: 'bonds',      label: 'Fixed Income',   color: '#5e9fd8', dim: 'rgba(94,159,216,0.12)' },
+  { id: 'equity',     label: 'Equity Research',color: '#4db89a', dim: 'rgba(77,184,154,0.1)' },
+  { id: 'derivatives',label: 'Derivatives',    color: '#d96b4a', dim: 'rgba(217,107,74,0.1)' },
+  { id: 'credit',     label: 'Credit Risk',    color: '#c9a84c', dim: 'rgba(201,168,76,0.1)' },
+  { id: 'quant',      label: 'Quant Methods',  color: '#a07ed8', dim: 'rgba(160,126,216,0.1)' },
+  { id: 'interview',  label: 'Interview Prep', color: '#c06b8a', dim: 'rgba(192,107,138,0.1)' },
+  { id: 'macro',      label: 'Macro / Rates',  color: '#7c8fa0', dim: 'rgba(124,143,160,0.1)' },
 ];
 
 const TYPES = [
-  { id: 'all', label: 'Tutti i tipi', icon: '◈' },
-  { id: 'book', label: 'Libri', icon: '▣', color: '#4db89a' },
-  { id: 'paper', label: 'Paper', icon: '◧', color: '#5e9fd8' },
-  { id: 'question', label: 'Domande colloquio', icon: '◈', color: '#d96b4a' },
-  { id: 'link', label: 'Tool & Link', icon: '◉', color: '#a07ed8' },
+  { id: 'all',      label: 'Tutti i tipi',         icon: '◈' },
+  { id: 'book',     label: 'Libri',                 icon: '▣', color: '#4db89a' },
+  { id: 'paper',    label: 'Paper',                 icon: '◧', color: '#5e9fd8' },
+  { id: 'question', label: 'Domande colloquio',     icon: '◈', color: '#d96b4a' },
+  { id: 'link',     label: 'Tool & Link',           icon: '◉', color: '#a07ed8' },
 ];
 
 const TYPE_EMOJI = { book: '📖', paper: '📄', question: '💬', link: '🔗' };
 
 let activeTopic = 'all';
-let activeType = 'all';
-let nextId = 100;
+let activeType  = 'all';
+let nextId      = 100;
+let pendingPDFData = null; // base64 string of uploaded PDF
 
-let resources = [
-  { id: 1, type: 'book', title: 'Options, Futures and Other Derivatives', author: 'John C. Hull', notes: 'Il classico assoluto per derivati. Fondamentale per ogni colloquio in trading e structuring. Copre futures, pricing, swap, options, Greeks.', topic: 'derivatives', link: '' },
-  { id: 2, type: 'book', title: 'Fixed Income Mathematics', author: 'Frank J. Fabozzi', notes: 'Teoria e pratica dei bond. Ottimo per pricing, duration, convexity e analisi dei titoli a reddito fisso.', topic: 'bonds', link: '' },
-  { id: 3, type: 'book', title: 'Security Analysis', author: 'Benjamin Graham & David Dodd', notes: 'Testo fondamentale per equity research. Focus su valutazione fondamentale e analisi di bilancio.', topic: 'equity', link: '' },
-  { id: 4, type: 'book', title: 'Credit Risk: Pricing, Measurement, and Management', author: 'David Lando', notes: 'Modelli di rischio di credito, CDS, structural models, intensity models. Rigore matematico elevato.', topic: 'credit', link: '' },
-  { id: 5, type: 'book', title: 'Paul Wilmott on Quantitative Finance', author: 'Paul Wilmott', notes: 'Enciclopedia della finanza quant in 3 volumi. Ottimo come riferimento per modelli e derivati esotici.', topic: 'quant', link: '' },
-  { id: 6, type: 'book', title: 'A Practical Guide to Quantitative Finance Interviews', author: 'Xinfeng Zhou', notes: 'Il libro per colloqui quant. Copre brain teasers, probabilità, calcolo stocastico, programmazione.', topic: 'interview', link: '' },
-  { id: 7, type: 'book', title: 'Heard on the Street', author: 'Timothy Crack', notes: 'Domande di logica e probabilità tipiche nei colloqui di Wall Street.', topic: 'interview', link: '' },
-  { id: 8, type: 'book', title: 'Stochastic Calculus for Finance I & II', author: 'Steven Shreve', notes: 'Testo rigoroso su calcolo stocastico applicato alla finanza. Vol I discreto, Vol II continuo.', topic: 'quant', link: '' },
-  { id: 9, type: 'book', title: 'Interest Rate Risk in the Banking Book', author: 'BIS / BCBS', notes: 'Framework regolatorio Basel Committee su rischio tasso nel banking book. Utile per ruoli ALM e risk.', topic: 'bonds', link: '' },
-  { id: 10, type: 'paper', title: 'The Pricing of Options and Corporate Liabilities', author: 'Black & Scholes (1973)', notes: 'Il paper originale di Black-Scholes. Must-read per capire la derivazione della formula.', topic: 'derivatives', link: 'https://www.cs.princeton.edu/courses/archive/fall09/cos323/papers/black_scholes73.pdf' },
-  { id: 11, type: 'paper', title: 'On the Pricing of Corporate Debt', author: 'Robert Merton (1974)', notes: 'Structural model del credit risk. Base teorica dei modelli di default tipo KMV.', topic: 'credit', link: '' },
-  { id: 12, type: 'paper', title: 'A Theory of the Term Structure of Interest Rates', author: 'Cox, Ingersoll & Ross (1985)', notes: 'Modello CIR per la struttura a termine dei tassi. Benchmark per i modelli a fattori.', topic: 'bonds', link: '' },
-  { id: 13, type: 'paper', title: 'The Cross-Section of Expected Stock Returns', author: 'Fama & French (1992)', notes: 'Introduce il modello a 3 fattori FF. Fondamentale per factor investing e equity research quant.', topic: 'equity', link: '' },
-  { id: 14, type: 'question', title: 'Come si prezza un interest rate swap?', author: 'Fixed Income', notes: 'Spiega discount factor, curva swap, NPV dei flussi fissi e variabili. Aspettati follow-up su OIS discounting vs LIBOR e gestione del basis risk.', topic: 'bonds', link: '' },
-  { id: 15, type: 'question', title: "Qual è la differenza tra volatilità implicita e storica?", author: 'Derivatives', notes: 'Vol implicita = forward-looking estratta dal mercato tramite BS. Storica = backward-looking calcolata dai rendimenti passati. Discuti vol smile e surface.', topic: 'derivatives', link: '' },
-  { id: 16, type: 'question', title: 'Come costruisci un DCF? Quali sono i punti critici?', author: 'Equity Research', notes: 'Proietta i free cash flow, attualizza al WACC, aggiungi terminal value. Rischi principali: sensibilità al WACC e al tasso di crescita g. Sanity check con multipli.', topic: 'equity', link: '' },
-  { id: 17, type: 'question', title: "Che cos'è il CVA e come si calcola?", author: 'Credit Risk', notes: 'Credit Valuation Adjustment: valore atteso della perdita per rischio controparte nei derivati OTC. CVA = -LGD × ∫EE(t)·dPD(t). Collegalo a DVA e XVA.', topic: 'credit', link: '' },
-  { id: 18, type: 'question', title: 'Spiega i Greeks di un\'opzione vanilla', author: 'Derivatives', notes: 'Delta, gamma, theta, vega, rho. Come si comportano rispetto al moneyness e alla scadenza. Come il market maker usa il delta hedging dinamico.', topic: 'derivatives', link: '' },
-  { id: 19, type: 'question', title: 'Come si costruisce una yield curve da zero?', author: 'Fixed Income', notes: 'Bootstrapping da strumenti liquidi: depositi, FRA, futures, swap. Scelta del metodo di interpolazione (linear, cubic spline). Differenza OIS vs swap curve post-2008.', topic: 'bonds', link: '' },
-  { id: 20, type: 'question', title: "Cos'è il modello di Merton e quali sono i suoi limiti?", author: 'Credit Risk', notes: 'Equity = call sul valore degli asset. Limiti: struttura del capitale semplificata, volatilità costante, difficoltà nel calibrare dati non osservabili.', topic: 'credit', link: '' },
-  { id: 21, type: 'link', title: 'QuantLib — libreria open source per pricing', author: 'quantlib.org', notes: 'Libreria C++ con Python binding per fixed income, derivati e risk management. Standard de facto nella finanza quant accademica.', topic: 'quant', link: 'https://www.quantlib.org' },
-  { id: 22, type: 'link', title: 'Damodaran Online — dataset e modelli di valutazione', author: 'Aswath Damodaran (NYU Stern)', notes: 'Dataset aggiornati su beta, WACC, multipli settoriali. Essenziale per valutazione aziendale.', topic: 'equity', link: 'https://pages.stern.nyu.edu/~adamodar/' },
-  { id: 23, type: 'link', title: 'FRED — Federal Reserve Economic Data', author: 'Federal Reserve Bank of St. Louis', notes: 'Database macro gratuito. Tassi, inflazione, GDP e molto altro. API disponibile.', topic: 'macro', link: 'https://fred.stlouisfed.org' },
-  { id: 24, type: 'link', title: 'SSRN — Social Science Research Network', author: 'ssrn.com', notes: 'Repository principale per preprint in finanza ed economia. Ideale per trovare paper recenti su qualsiasi argomento.', topic: 'quant', link: 'https://www.ssrn.com' },
+// ── STORAGE ──────────────────────────────────────────────────────────
+const LS_KEY      = 'qfhub_resources_v2';
+const LS_PDF_KEY  = 'qfhub_pdfs_v1'; // separate store for PDF data
+
+function loadResources() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return null;
+}
+
+function saveResources() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(resources)); } catch(e) {}
+}
+
+function savePDF(id, data) {
+  try {
+    const store = JSON.parse(localStorage.getItem(LS_PDF_KEY) || '{}');
+    store[id] = data;
+    localStorage.setItem(LS_PDF_KEY, JSON.stringify(store));
+  } catch(e) {
+    console.warn('PDF storage failed (probabilmente troppo grande):', e);
+    return false;
+  }
+  return true;
+}
+
+function loadPDF(id) {
+  try {
+    const store = JSON.parse(localStorage.getItem(LS_PDF_KEY) || '{}');
+    return store[id] || null;
+  } catch(e) { return null; }
+}
+
+function deletePDF(id) {
+  try {
+    const store = JSON.parse(localStorage.getItem(LS_PDF_KEY) || '{}');
+    delete store[id];
+    localStorage.setItem(LS_PDF_KEY, JSON.stringify(store));
+  } catch(e) {}
+}
+
+// ── DEFAULT DATA ──────────────────────────────────────────────────────
+const DEFAULT_RESOURCES = [
+  { id: 1,  type: 'book',     title: 'Options, Futures and Other Derivatives',           author: 'John C. Hull',                    notes: 'Il classico assoluto per derivati. Fondamentale per ogni colloquio in trading e structuring. Copre futures, pricing, swap, options, Greeks.', topic: 'derivatives', link: '', pdfLink: '', hasPDF: false },
+  { id: 2,  type: 'book',     title: 'Fixed Income Mathematics',                          author: 'Frank J. Fabozzi',                notes: 'Teoria e pratica dei bond. Ottimo per pricing, duration, convexity e analisi dei titoli a reddito fisso.',                                        topic: 'bonds',       link: '', pdfLink: '', hasPDF: false },
+  { id: 3,  type: 'book',     title: 'Security Analysis',                                 author: 'Benjamin Graham & David Dodd',    notes: 'Testo fondamentale per equity research. Focus su valutazione fondamentale e analisi di bilancio.',                                               topic: 'equity',      link: '', pdfLink: '', hasPDF: false },
+  { id: 4,  type: 'book',     title: 'Credit Risk: Pricing, Measurement, and Management', author: 'David Lando',                     notes: 'Modelli di rischio di credito, CDS, structural models, intensity models. Rigore matematico elevato.',                                            topic: 'credit',      link: '', pdfLink: '', hasPDF: false },
+  { id: 5,  type: 'book',     title: 'Paul Wilmott on Quantitative Finance',               author: 'Paul Wilmott',                    notes: 'Enciclopedia della finanza quant in 3 volumi. Ottimo come riferimento per modelli e derivati esotici.',                                          topic: 'quant',       link: '', pdfLink: '', hasPDF: false },
+  { id: 6,  type: 'book',     title: 'A Practical Guide to Quantitative Finance Interviews', author: 'Xinfeng Zhou',                  notes: 'Il libro per colloqui quant. Copre brain teasers, probabilità, calcolo stocastico, programmazione.',                                             topic: 'interview',   link: '', pdfLink: '', hasPDF: false },
+  { id: 7,  type: 'book',     title: 'Heard on the Street',                               author: 'Timothy Crack',                   notes: 'Domande di logica e probabilità tipiche nei colloqui di Wall Street.',                                                                            topic: 'interview',   link: '', pdfLink: '', hasPDF: false },
+  { id: 8,  type: 'book',     title: 'Stochastic Calculus for Finance I & II',             author: 'Steven Shreve',                   notes: 'Testo rigoroso su calcolo stocastico applicato alla finanza. Vol I discreto, Vol II continuo.',                                                   topic: 'quant',       link: '', pdfLink: '', hasPDF: false },
+  { id: 9,  type: 'book',     title: 'Interest Rate Risk in the Banking Book',             author: 'BIS / BCBS',                      notes: 'Framework regolatorio Basel Committee su rischio tasso nel banking book. Utile per ruoli ALM e risk.',                                            topic: 'bonds',       link: '', pdfLink: '', hasPDF: false },
+  { id: 10, type: 'paper',    title: 'The Pricing of Options and Corporate Liabilities',   author: 'Black & Scholes (1973)',          notes: 'Il paper originale di Black-Scholes. Must-read per capire la derivazione della formula.',                                                          topic: 'derivatives', link: '', pdfLink: 'https://www.cs.princeton.edu/courses/archive/fall09/cos323/papers/black_scholes73.pdf', hasPDF: false },
+  { id: 11, type: 'paper',    title: 'On the Pricing of Corporate Debt',                  author: 'Robert Merton (1974)',            notes: 'Structural model del credit risk. Base teorica dei modelli di default tipo KMV.',                                                                  topic: 'credit',      link: '', pdfLink: '', hasPDF: false },
+  { id: 12, type: 'paper',    title: 'A Theory of the Term Structure of Interest Rates',  author: 'Cox, Ingersoll & Ross (1985)',    notes: 'Modello CIR per la struttura a termine dei tassi. Benchmark per i modelli a fattori.',                                                              topic: 'bonds',       link: '', pdfLink: '', hasPDF: false },
+  { id: 13, type: 'paper',    title: 'The Cross-Section of Expected Stock Returns',       author: 'Fama & French (1992)',            notes: 'Introduce il modello a 3 fattori FF. Fondamentale per factor investing e equity research quant.',                                                   topic: 'equity',      link: '', pdfLink: '', hasPDF: false },
+  { id: 14, type: 'question', title: 'Come si prezza un interest rate swap?',             author: 'Fixed Income',                    notes: 'Spiega discount factor, curva swap, NPV dei flussi fissi e variabili. Aspettati follow-up su OIS discounting vs LIBOR.',                           topic: 'bonds',       link: '', pdfLink: '', hasPDF: false },
+  { id: 15, type: 'question', title: "Qual è la differenza tra volatilità implicita e storica?", author: 'Derivatives',              notes: 'Vol implicita = forward-looking estratta dal mercato tramite BS. Storica = backward-looking calcolata dai rendimenti passati.',                    topic: 'derivatives', link: '', pdfLink: '', hasPDF: false },
+  { id: 16, type: 'question', title: 'Come costruisci un DCF? Quali sono i punti critici?', author: 'Equity Research',              notes: 'Proietta i free cash flow, attualizza al WACC, aggiungi terminal value. Rischi principali: sensibilità al WACC e al tasso di crescita g.',          topic: 'equity',      link: '', pdfLink: '', hasPDF: false },
+  { id: 17, type: 'question', title: "Che cos'è il CVA e come si calcola?",               author: 'Credit Risk',                    notes: 'Credit Valuation Adjustment: valore atteso della perdita per rischio controparte nei derivati OTC. CVA = -LGD × ∫EE(t)·dPD(t).',                   topic: 'credit',      link: '', pdfLink: '', hasPDF: false },
+  { id: 18, type: 'question', title: "Spiega i Greeks di un'opzione vanilla",             author: 'Derivatives',                    notes: 'Delta, gamma, theta, vega, rho. Come si comportano rispetto al moneyness e alla scadenza. Come il market maker usa il delta hedging dinamico.',     topic: 'derivatives', link: '', pdfLink: '', hasPDF: false },
+  { id: 19, type: 'question', title: 'Come si costruisce una yield curve da zero?',       author: 'Fixed Income',                   notes: 'Bootstrapping da strumenti liquidi: depositi, FRA, futures, swap. Scelta del metodo di interpolazione (linear, cubic spline).',                        topic: 'bonds',       link: '', pdfLink: '', hasPDF: false },
+  { id: 20, type: 'question', title: "Cos'è il modello di Merton e quali sono i suoi limiti?", author: 'Credit Risk',              notes: 'Equity = call sul valore degli asset. Limiti: struttura del capitale semplificata, volatilità costante, difficoltà nel calibrare dati non osservabili.', topic: 'credit', link: '', pdfLink: '', hasPDF: false },
+  { id: 21, type: 'link',     title: 'QuantLib — libreria open source per pricing',       author: 'quantlib.org',                   notes: 'Libreria C++ con Python binding per fixed income, derivati e risk management. Standard de facto nella finanza quant accademica.',                      topic: 'quant',       link: 'https://www.quantlib.org',                     pdfLink: '', hasPDF: false },
+  { id: 22, type: 'link',     title: 'Damodaran Online — dataset e modelli di valutazione', author: 'Aswath Damodaran (NYU Stern)', notes: 'Dataset aggiornati su beta, WACC, multipli settoriali. Essenziale per valutazione aziendale.',                                                      topic: 'equity',      link: 'https://pages.stern.nyu.edu/~adamodar/',       pdfLink: '', hasPDF: false },
+  { id: 23, type: 'link',     title: 'FRED — Federal Reserve Economic Data',              author: 'Federal Reserve Bank of St. Louis', notes: 'Database macro gratuito. Tassi, inflazione, GDP e molto altro. API disponibile.',                                                              topic: 'macro',       link: 'https://fred.stlouisfed.org',                  pdfLink: '', hasPDF: false },
+  { id: 24, type: 'link',     title: 'SSRN — Social Science Research Network',            author: 'ssrn.com',                       notes: 'Repository principale per preprint in finanza ed economia. Ideale per trovare paper recenti su qualsiasi argomento.',                               topic: 'quant',       link: 'https://www.ssrn.com',                          pdfLink: '', hasPDF: false },
 ];
 
-function topicById(id) { return TOPICS.find(t => t.id === id) || TOPICS[0]; }
+let resources = loadResources() || DEFAULT_RESOURCES;
+
+// ── PDF HANDLING ──────────────────────────────────────────────────────
+function handlePDFFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    pendingPDFData = e.target.result; // data:application/pdf;base64,...
+    document.getElementById('pdf-name-label').textContent = file.name;
+    document.getElementById('pdf-selected-name').classList.add('show');
+    // clear URL field if file chosen
+    document.getElementById('f-pdf-link').value = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearPDF() {
+  pendingPDFData = null;
+  document.getElementById('f-pdf-file').value = '';
+  document.getElementById('pdf-selected-name').classList.remove('show');
+}
+
+// Drag & drop
+const dropArea = document.getElementById('pdf-drop-area');
+dropArea.addEventListener('dragover', e => { e.preventDefault(); dropArea.classList.add('dragover'); });
+dropArea.addEventListener('dragleave', () => dropArea.classList.remove('dragover'));
+dropArea.addEventListener('drop', e => {
+  e.preventDefault();
+  dropArea.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type === 'application/pdf') {
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    document.getElementById('f-pdf-file').files = dt.files;
+    handlePDFFile(document.getElementById('f-pdf-file'));
+  }
+});
+
+// ── PDF VIEWER ────────────────────────────────────────────────────────
+function openPDFViewer(id, title) {
+  const data = loadPDF(id);
+  if (!data) return;
+  document.getElementById('pdf-viewer-title').textContent = title;
+  document.getElementById('pdf-frame').src = data;
+  document.getElementById('pdf-overlay').classList.add('open');
+}
+
+function openPDFLink(url, title) {
+  document.getElementById('pdf-viewer-title').textContent = title;
+  document.getElementById('pdf-frame').src = url;
+  document.getElementById('pdf-overlay').classList.add('open');
+}
+
+function closePDFViewer() {
+  document.getElementById('pdf-overlay').classList.remove('open');
+  document.getElementById('pdf-frame').src = '';
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────
+function topicById(id) { return TOPICS.find(t => t.id === id) || TOPICS[1]; }
 
 function render() {
   renderTopicPills();
@@ -719,7 +911,7 @@ function renderTypeSidebar() {
 
 function renderStats() {
   document.getElementById('stat-total').textContent = resources.length;
-  document.getElementById('stat-books').textContent = resources.filter(r => r.type === 'book').length;
+  document.getElementById('stat-books').textContent  = resources.filter(r => r.type === 'book').length;
   document.getElementById('stat-papers').textContent = resources.filter(r => r.type !== 'book').length;
 }
 
@@ -727,20 +919,20 @@ function getFiltered() {
   const q = document.getElementById('search').value.toLowerCase();
   return resources.filter(r => {
     if (activeTopic !== 'all' && r.topic !== activeTopic) return false;
-    if (activeType !== 'all' && r.type !== activeType) return false;
+    if (activeType  !== 'all' && r.type  !== activeType)  return false;
     if (q && !r.title.toLowerCase().includes(q) && !(r.author||'').toLowerCase().includes(q) && !(r.notes||'').toLowerCase().includes(q)) return false;
     return true;
   });
 }
 
 function renderContent() {
-  const content = document.getElementById('content');
+  const content  = document.getElementById('content');
   const filtered = getFiltered();
   const sections = [
-    { key: 'book', label: 'Libri consigliati' },
-    { key: 'paper', label: 'Paper & articoli' },
+    { key: 'book',     label: 'Libri consigliati' },
+    { key: 'paper',    label: 'Paper & articoli' },
     { key: 'question', label: 'Domande da colloquio' },
-    { key: 'link', label: 'Tool & link utili' },
+    { key: 'link',     label: 'Tool & link utili' },
   ];
   const visibleSections = activeType === 'all' ? sections : sections.filter(s => s.key === activeType);
 
@@ -752,7 +944,6 @@ function renderContent() {
       continue;
     }
     if (items.length === 0) continue;
-    const typeInfo = TYPES.find(t => t.key === s.key) || {};
     html += `<div class="section">
       <div class="section-header">
         <span class="section-title">${s.label}</span>
@@ -763,37 +954,58 @@ function renderContent() {
       </div>
     </div>`;
   }
-
   if (!html) html = `<div class="empty"><div class="empty-icon">◈</div>Nessuna risorsa trovata. Prova a modificare i filtri.</div>`;
   content.innerHTML = html;
 }
 
 function renderCard(r) {
-  const topic = topicById(r.topic);
+  const topic    = topicById(r.topic);
   const tagStyle = `color:${topic.color}; border-color:${topic.color}33;`;
-  const iconBg = `background:${topic.dim || 'rgba(255,255,255,0.05)'};`;
+  const iconBg   = `background:${topic.dim || 'rgba(255,255,255,0.05)'};`;
+
+  // Build link buttons
+  let linkBtns = '';
+  if (r.link) {
+    linkBtns += `<a class="card-link" href="${escHtml(r.link)}" target="_blank" rel="noopener">↗ Apri</a>`;
+  }
+  if (r.hasPDF) {
+    linkBtns += `<button class="card-link embedded-pdf" onclick="openPDFViewer(${r.id}, '${escJs(r.title)}')">📄 PDF</button>`;
+  } else if (r.pdfLink) {
+    linkBtns += `<a class="card-link pdf" href="${escHtml(r.pdfLink)}" target="_blank" rel="noopener">📄 PDF</a>`;
+  }
+
   return `<div class="card">
     <div class="card-icon" style="${iconBg}">${TYPE_EMOJI[r.type]}</div>
     <div class="card-body">
       <div class="card-top">
-        <span class="card-title">${r.title}</span>
+        <span class="card-title">${escHtml(r.title)}</span>
         <button class="delete-btn" onclick="deleteResource(${r.id})" title="Rimuovi">&#x2715;</button>
       </div>
-      ${r.author ? `<div class="card-author">${r.author}</div>` : ''}
-      ${r.notes ? `<div class="card-notes">${r.notes}</div>` : ''}
+      ${r.author ? `<div class="card-author">${escHtml(r.author)}</div>` : ''}
+      ${r.notes  ? `<div class="card-notes">${escHtml(r.notes)}</div>`  : ''}
       <div class="card-footer">
         <span class="tag" style="${tagStyle}">${topic.label}</span>
-        ${r.link ? `<a class="card-link" href="${r.link}" target="_blank" rel="noopener">↗ Apri</a>` : ''}
+        ${linkBtns}
       </div>
     </div>
   </div>`;
 }
 
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escJs(s) {
+  return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+}
+
+// ── ACTIONS ───────────────────────────────────────────────────────────
 function setTopic(id) { activeTopic = id; render(); }
-function setType(id) { activeType = id; render(); }
+function setType(id)  { activeType  = id; render(); }
 
 function deleteResource(id) {
   resources = resources.filter(r => r.id !== id);
+  deletePDF(id);
+  saveResources();
   render();
 }
 
@@ -801,10 +1013,12 @@ function openModal() {
   const topicSel = document.getElementById('f-topic-sel');
   topicSel.innerHTML = TOPICS.filter(t => t.id !== 'all').map(t => `<option value="${t.id}">${t.label}</option>`).join('');
   if (activeTopic !== 'all') topicSel.value = activeTopic;
-  document.getElementById('f-title').value = '';
-  document.getElementById('f-author').value = '';
-  document.getElementById('f-notes').value = '';
-  document.getElementById('f-link').value = '';
+  document.getElementById('f-title').value   = '';
+  document.getElementById('f-author').value  = '';
+  document.getElementById('f-notes').value   = '';
+  document.getElementById('f-link').value    = '';
+  document.getElementById('f-pdf-link').value= '';
+  clearPDF();
   document.getElementById('overlay').classList.add('open');
   setTimeout(() => document.getElementById('f-title').focus(), 100);
 }
@@ -814,21 +1028,40 @@ function closeModal() { document.getElementById('overlay').classList.remove('ope
 function saveResource() {
   const title = document.getElementById('f-title').value.trim();
   if (!title) { document.getElementById('f-title').focus(); return; }
+
+  const id = nextId++;
+  const pdfLink = document.getElementById('f-pdf-link').value.trim();
+  let hasPDF = false;
+
+  if (pendingPDFData) {
+    const ok = savePDF(id, pendingPDFData);
+    if (ok) hasPDF = true;
+    else alert('PDF troppo grande per il browser locale (>5 MB). Usa un link esterno.');
+  }
+
   resources.push({
-    id: nextId++,
-    type: document.getElementById('f-type').value,
+    id,
+    type:    document.getElementById('f-type').value,
     title,
-    author: document.getElementById('f-author').value.trim(),
-    notes: document.getElementById('f-notes').value.trim(),
-    topic: document.getElementById('f-topic-sel').value,
-    link: document.getElementById('f-link').value.trim(),
+    author:  document.getElementById('f-author').value.trim(),
+    notes:   document.getElementById('f-notes').value.trim(),
+    topic:   document.getElementById('f-topic-sel').value,
+    link:    document.getElementById('f-link').value.trim(),
+    pdfLink: hasPDF ? '' : pdfLink,
+    hasPDF,
   });
+
+  saveResources();
   closeModal();
   render();
 }
 
-document.getElementById('overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+// close overlays on backdrop click / Escape
+document.getElementById('overlay').addEventListener('click',     e => { if (e.target === e.currentTarget) closeModal(); });
+document.getElementById('pdf-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closePDFViewer(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closePDFViewer(); }
+});
 
 render();
 </script>
